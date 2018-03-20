@@ -17,6 +17,9 @@ class UserController < ApplicationController
     elsif params[:password].length < 8
       flash[:failure] = "Password Must be 8 characters or more"
       redirect '/signup'
+    elsif params[:password] != params[:confirm_password]
+      flash[:failure] = "Passwords do not match"
+      redirect '/signup'
     else
       @user = User.create(params)
       session[:user_id] = @user.id
