@@ -30,10 +30,11 @@ class UserController < ApplicationController
   get '/:slug' do
     if logged_in?
       @current_user = User.find(session[:user_id])
+      @recipes = Recipe.where(user_id: @current_user.id)
+      erb :'/users/show'
+    else
+      redirect '/login'
     end
-    @user = User.find_by_slug(params[:slug])
-    @recipes = Recipe.where(user_id: @user.id)
-    erb :'/users/show'
   end
 
   get '/login' do
