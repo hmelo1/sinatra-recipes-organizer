@@ -2,10 +2,11 @@ require './config/environment'
 
 class ApplicationController < Sinatra::Base
   configure do
+    set :public_folder, 'public'
     set :session_secret, "penguins"
     set :views, 'app/views'
     enable :sessions
-    #register Sinatra::Flash
+    register Sinatra::Flash
   end
 
   get '/' do
@@ -24,5 +25,5 @@ class ApplicationController < Sinatra::Base
       User.find(session[:user_id])
     end
   end
-  
+
 end

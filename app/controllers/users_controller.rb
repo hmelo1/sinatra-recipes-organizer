@@ -9,13 +9,26 @@ class UserController < ApplicationController
 
   post '/signup' do
     if User.find_by(username: params[:username])
-      #flash username taken
+      flash[:failure] = "Username is taken, please try again."
+      redirect '/signup'
+    elsif params[:username].length < 8
+      flash[:failure] = "Username Must be 8 characters or more"
+      redirect '/signup'
+    elsif params[:password].length < 8
+      flash[:failure] = "Password Must be 8 characters or more"
       redirect '/signup'
     else
       @user = User.create(params)
       session[:user_id] = @user.id
-      redirect to "/#{@user.slug}"
+      redirect to "/users/#{@user.slug}"
     end
   end
+
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    @recipes = Recipe.where(user_id: @user.id)
+    erb :'/users/show'
+  end
+
 
 end

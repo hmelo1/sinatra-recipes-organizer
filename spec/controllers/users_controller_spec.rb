@@ -18,13 +18,14 @@ describe UserController do
       expect(last_response.status).to eq(200)
     end
 
-    it 'signup directs user to twitter index' do
+    it 'signup directs user to user index' do
       params = {
         :username => "skittles123",
         :password => "rainbows"
       }
       post '/signup', params
-      expect(last_response.location).to include("/recipes")
+      binding.pry
+      expect(last_response.location).to include("/#{@user}")
     end
 
     it 'does not let a user sign up without a username' do

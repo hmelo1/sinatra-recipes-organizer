@@ -1,0 +1,4 @@
+<% @recipes.each_with_index do |recipe, index| %>
+  <h2> Recipe Number <%= index+1 %></h2>
+  <p><%= recipe.content%> </p>
+  <% end %>
