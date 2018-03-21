@@ -33,4 +33,15 @@ class RecipeController < ApplicationController
     end
   end
 
+  delete '/recipes/:slug/delete' do
+    @user = User.find(session[:user_id])
+    @recipe = Recipe.find_by_recipe_slug(params[:slug])
+    if ((logged_in?) && (@recipe.user_id == session[:user_id]))
+      @recipe.destroy
+      redirect to "/#{@user.slug}"
+    else
+      redirect to "/#{@user.slug}"
+    end
+  end
+
 end

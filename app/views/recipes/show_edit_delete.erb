@@ -4,7 +4,7 @@
 <h3> Instructions: </h3>
 <p><%= @recipe.instructions %></p>
 
-<form action="/recipes/<%= @recipe.recipe_slug %>/edit_delete" method="post">
+<form action="/recipes/<%= @recipe.recipe_slug %>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete Recipe">
 </form>
