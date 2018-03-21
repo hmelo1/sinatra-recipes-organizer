@@ -27,7 +27,7 @@ class RecipeController < ApplicationController
   get '/recipes/:slug' do
     @recipe = Recipe.find_by_recipe_slug(params[:slug])
     if (session[:user_id] == @recipe.user_id) && @recipe.user_id != nil
-      erb :'/recipes/edit_delete'
+      erb :'/recipes/show_edit_delete'
     else
       erb :'/recipes/show'
     end
