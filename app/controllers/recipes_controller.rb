@@ -33,6 +33,29 @@ class RecipeController < ApplicationController
     end
   end
 
+  get '/recipes/:slug/edit' do
+    if logged_in?
+      @recipe = Recipe.find_by_recipe_slug(params[:slug])
+      @user = User.find_by(id: @recipe.user_id)
+
+      erb :'/recipes/edit'
+    else
+      redirect to '/login'
+    end
+  end
+
+  patch '/recipes/:slug/edit' do
+    @recipe = Recipe.find_by_recipe_slug(params[:slug])
+    if params[:title].length < 3 || params[:ingredients].length < 3 || params[:instructions].length < 3
+      flash[:failure] = "Pleasemake sure entries aren't less than 3 characters"
+      redirect to "/recipes/#{params[:slug]}/edit"
+    else
+      @recipe.update(title: params[:title], ingredients: params[:ingredients], instructions: params[:instructions])
+      @user = User.find_by(id: @recipe.user_id)
+      redirect to "/recipes"
+    end
+  end
+
   delete '/recipes/:slug/delete' do
     @user = User.find(session[:user_id])
     @recipe = Recipe.find_by_recipe_slug(params[:slug])
