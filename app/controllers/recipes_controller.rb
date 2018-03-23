@@ -1,7 +1,11 @@
 class RecipeController < ApplicationController
   get '/recipes' do
-      @recipes = Recipe.all
-      erb :'/recipes/index'
+    if logged_in?
+      @user = User.find(session[:user_id])
+    end
+    binding.pry
+    @recipes = Recipe.all
+    erb :'/recipes/index'
   end
 
   get '/recipes/new' do
