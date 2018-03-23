@@ -1,6 +1,4 @@
-<h1>Welcome!</h1>
-<h3>Here are all the recipes: </h3>
  <% @recipes.each do |recipe| %>
  <p><%=recipe.title %></p>
+ <p><%= recipe.instructions %> </p>
  <% end %>
- 

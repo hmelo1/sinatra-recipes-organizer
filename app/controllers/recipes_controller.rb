@@ -4,6 +4,7 @@ class RecipeController < ApplicationController
       @user = User.find(session[:user_id])
     end
     @recipes = Recipe.all
+    @page = "recipes"
     erb :'/recipes/index'
   end
 
@@ -17,6 +18,17 @@ class RecipeController < ApplicationController
     end
   end
 
+
+    get '/recipes/:slug' do
+      @recipe = Recipe.find_by_recipe_slug(params[:slug])
+      if (session[:user_id] == @recipe.user_id.to_i) && @recipe.user_id != nil
+        @user = User.find_by(id: @recipe.user_id)
+        erb :'/recipes/show_edit_delete'
+      else
+        erb :'/recipes/show'
+      end
+    end
+
   post '/recipes' do
     if params[:title].length < 3 || params[:ingredients].empty? || params[:instructions].empty?
       flash[:failure] = "Please do not leave any entries empty"
@@ -24,16 +36,6 @@ class RecipeController < ApplicationController
     else
       @recipe = Recipe.create(title: params[:title], ingredients: params[:ingredients], instructions: params[:instructions], user_id: session[:user_id])
       redirect to "recipes/#{@recipe.recipe_slug}"
-    end
-  end
-
-  get '/recipes/:slug' do
-    @recipe = Recipe.find_by_recipe_slug(params[:slug])
-    if (session[:user_id] == @recipe.user_id.to_i) && @recipe.user_id != nil
-      @user = User.find_by(id: @recipe.user_id)
-      erb :'/recipes/show_edit_delete'
-    else
-      erb :'/recipes/show'
     end
   end
 

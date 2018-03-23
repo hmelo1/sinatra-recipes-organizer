@@ -1,30 +1,23 @@
-<!-- Page Header -->
-<header class="masthead" style="background-image: url('img/home-bg.jpg')">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="site-heading">
-          <h1>Nom Nom Recipes</h1>
-          <span class="subheading">Delicious recipes!</span>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <h3>Ingredients: </h3>
+              <p><%= @recipe.ingredients %></p>
+              <h3> Instructions: </h3>
+              <p><%= @recipe.instructions %></p>
+
+              <form action="/recipes/<%= @recipe.recipe_slug %>/delete" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <input type="submit" id= "delete" value="Delete Recipe">
+              </form>
+
+              <form action="/recipes/<%= @recipe.recipe_slug %>/edit">
+                <input type="submit" id="edit" value="Edit Recipe">
+              </form>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
   </div>
-</header>
-
-
-<h1><%= @recipe.title %></h1>
-<h3>Ingredients: </h3>
-<p><%= @recipe.ingredients %></p>
-<h3> Instructions: </h3>
-<p><%= @recipe.instructions %></p>
-
-<form action="/recipes/<%= @recipe.recipe_slug %>/delete" method="post">
-  <input type="hidden" name="_method" value="delete">
-  <input type="submit" id= "delete" value="Delete Recipe">
-</form>
-
-<form action="/recipes/<%= @recipe.recipe_slug %>/edit">
-  <input type="submit" id="edit" value="Edit Recipe">
-</form>
+</div>

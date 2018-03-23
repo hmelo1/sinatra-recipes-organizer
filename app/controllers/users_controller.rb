@@ -3,6 +3,7 @@ class UserController < ApplicationController
     if logged_in?
       redirect '/recipes'
     else
+      @page = "signup"
       erb :'/users/signup'
     end
   end
@@ -29,10 +30,10 @@ class UserController < ApplicationController
 
 
     get '/login' do
-      binding.pry
       if logged_in?
         redirect to '/recipes'
       else
+        @page = "login"
         erb :'/users/login'
       end
     end
@@ -41,7 +42,7 @@ class UserController < ApplicationController
       @user = User.find_by(username: params[:username])
       if @user && @user.authenticate(params[:password])
         session[:user_id] = @user.id
-        redirect "/#{@user.slug}"
+        redirect "/users/#{@user.slug}"
       else
         flash[:failure] = "Unable to Authenticate Username and Password. Please Try Again."
         redirect '/login'
@@ -58,10 +59,11 @@ class UserController < ApplicationController
     end
   end
 
-  get '/:slug' do
+  get '/users/:slug' do
     if logged_in?
       @user = User.find(session[:user_id])
       @recipes = Recipe.where(user_id: @user.id)
+      @page = "user"
       erb :'/users/show'
     else
       redirect '/login'
