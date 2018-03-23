@@ -3,7 +3,6 @@ class RecipeController < ApplicationController
     if logged_in?
       @user = User.find(session[:user_id])
     end
-    binding.pry
     @recipes = Recipe.all
     erb :'/recipes/index'
   end
@@ -30,7 +29,8 @@ class RecipeController < ApplicationController
 
   get '/recipes/:slug' do
     @recipe = Recipe.find_by_recipe_slug(params[:slug])
-    if (session[:user_id] == @recipe.user_id) && @recipe.user_id != nil
+    if (session[:user_id] == @recipe.user_id.to_i) && @recipe.user_id != nil
+      @user = User.find_by(id: @recipe.user_id)
       erb :'/recipes/show_edit_delete'
     else
       erb :'/recipes/show'
@@ -63,7 +63,7 @@ class RecipeController < ApplicationController
   delete '/recipes/:slug/delete' do
     @user = User.find(session[:user_id])
     @recipe = Recipe.find_by_recipe_slug(params[:slug])
-    if ((logged_in?) && (@recipe.user_id == session[:user_id]))
+    if ((logged_in?) && (@recipe.user_id.to_i == session[:user_id]))
       @recipe.destroy
       redirect to "/#{@user.slug}"
     else

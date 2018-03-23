@@ -27,6 +27,37 @@ class UserController < ApplicationController
     end
   end
 
+
+    get '/login' do
+      binding.pry
+      if logged_in?
+        redirect to '/recipes'
+      else
+        erb :'/users/login'
+      end
+    end
+
+    post '/login' do
+      @user = User.find_by(username: params[:username])
+      if @user && @user.authenticate(params[:password])
+        session[:user_id] = @user.id
+        redirect "/#{@user.slug}"
+      else
+        flash[:failure] = "Unable to Authenticate Username and Password. Please Try Again."
+        redirect '/login'
+      end
+    end
+
+
+  get '/logout' do
+    if logged_in?
+      session.destroy
+      redirect '/'
+    else
+      redirect '/'
+    end
+  end
+
   get '/:slug' do
     if logged_in?
       @user = User.find(session[:user_id])
@@ -34,34 +65,6 @@ class UserController < ApplicationController
       erb :'/users/show'
     else
       redirect '/login'
-    end
-  end
-
-  get '/login' do
-    if logged_in?
-      redirect to '/recipes'
-    else
-      erb :'/users/login'
-    end
-  end
-
-  post '/login' do
-    @user = User.find_by(username: params[:username])
-    if @user && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
-      redirect "/#{@user.slug}"
-    else
-      flash[:failure] = "Unable to Authenticate Username and Password. Please Try Again."
-      redirect '/login'
-    end
-  end
-
-  get '/logout' do
-    if logged_in?
-      session.clear
-      redirect to "/login"
-    else
-      redirect "/"
     end
   end
 
