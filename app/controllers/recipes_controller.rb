@@ -11,6 +11,7 @@ class RecipeController < ApplicationController
   get '/recipes/new' do
     if logged_in?
       @user = User.find(session[:user_id])
+      @page = "new"
       erb :'/recipes/new'
     else
       flash[:failure] = "Please login to create a new recipe"
@@ -21,10 +22,13 @@ class RecipeController < ApplicationController
 
     get '/recipes/:slug' do
       @recipe = Recipe.find_by_recipe_slug(params[:slug])
+      @user = User.find_by(id: @recipe.user_id)
       if (session[:user_id] == @recipe.user_id.to_i) && @recipe.user_id != nil
-        @user = User.find_by(id: @recipe.user_id)
+        @page = "recipe"
+        
         erb :'/recipes/show_edit_delete'
       else
+        @page = "recipe"
         erb :'/recipes/show'
       end
     end
@@ -44,6 +48,7 @@ class RecipeController < ApplicationController
       @recipe = Recipe.find_by_recipe_slug(params[:slug])
       @user = User.find_by(id: @recipe.user_id)
 
+      @page = "edit"
       erb :'/recipes/edit'
     else
       redirect to '/login'

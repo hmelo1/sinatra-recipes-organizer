@@ -26,6 +26,21 @@ class MastheadService
       heading: "All Your Receipes",
       subheading: "Remember These?"
     },
+    "recipe" => {
+      background_img: 'img/recipe-bg.jpeg',
+      heading: "test",
+      subheading: "test"
+    },
+    "edit" => {
+      background_img: 'img/recipes-bg.jpeg',
+      heading: "Edit Recipe",
+      subheading: " "
+    },
+    "new" => {
+      background_img: 'img/recipes-bg.jpeg',
+      heading: "New Recipe",
+      subheading: " "
+    },
   }
 attr_accessor :background_img, :heading, :subheading
 
