@@ -1,4 +1,20 @@
-<% @recipes.each_with_index do |recipe, index| %>
-    <h3><%= recipe.title%></h3>
-    <p><%= recipe.instructions%></p>
-<% end %>
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <%  @recipes.each do |recipe| %>
+      <div class="post-preview">
+        <a href="/recipes/<%=recipe.recipe_slug%>">
+          <h2 class="post-title">
+            <%= recipe.title %>
+          </h2>
+          <h4 class="post-subtitle">
+            <%= recipe.ingredients[0...32] %>...
+          </h3>
+        </a>
+      </div>
+      <hr>
+      <% end %>
+    </div>
+  </div>
+</div>

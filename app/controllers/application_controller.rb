@@ -13,6 +13,7 @@ class ApplicationController < Sinatra::Base
     if logged_in?
       @user = User.find(session[:user_id])
     end
+    @recipes = Recipe.all.sample(3)
     @page = "home"
     erb :index
   end
@@ -21,6 +22,7 @@ class ApplicationController < Sinatra::Base
     if logged_in?
       @user = User.find(session[:user_id])
     end
+    @recipes = Recipe.all.sample(3)
     @page = "home"
     erb :index
   end
