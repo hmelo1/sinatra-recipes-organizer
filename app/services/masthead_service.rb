@@ -32,12 +32,12 @@ class MastheadService
       subheading: "test"
     },
     "edit" => {
-      background_img: 'img/recipes-bg.jpeg',
+      background_img: 'img/edit-bg.jpeg',
       heading: "Edit Recipe",
       subheading: " "
     },
     "new" => {
-      background_img: 'img/recipes-bg.jpeg',
+      background_img: 'img/new-bg.jpg',
       heading: "New Recipe",
       subheading: " "
     },
