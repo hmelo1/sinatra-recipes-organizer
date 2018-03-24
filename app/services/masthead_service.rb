@@ -46,10 +46,17 @@ attr_accessor :background_img, :heading, :subheading
 
   def self.for(page)
     obj = self.new
-    obj.background_img = @@pages[page][:background_img]
-    obj.heading = @@pages[page][:heading]
-    obj.subheading = @@pages[page][:subheading]
-    obj
+    if page.is_a?(Hash)
+      obj.background_img = page.values.first[:background_img]
+      obj.heading = page.values.first[:heading]
+      obj.subheading = page.values.first[:subheading]
+      obj
+    else
+      obj.background_img = @@pages[page][:background_img]
+      obj.heading = @@pages[page][:heading]
+      obj.subheading = @@pages[page][:subheading]
+      obj
+    end
   end
 
 end
