@@ -1,7 +1,32 @@
-<h1>New Recipe</h1>
-<form action="/recipes" method="post">
-  <p>Title: <input type="text" name="title" required> </p>
-  <p>Ingredients: <input type="text" name="ingredients" required> </p>
-  <p>Instructions: <input type="text" name="instructions" required> </p>
-  <input type="submit" value="submit">
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <h2>New Recipe:</h2>
+      <form action="/recipes" method="post">
+        <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+            <label>Title:</label>
+            <input type="text" class="form-control" placeholder="Title" id="title" required data-validation-required-message="Please enter a title.">
+            <p class="help-block text-danger"></p>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+            <label>Ingredients:</label>
+            <input type="text" class="form-control" placeholder="Ingredients" id="ingredients" required data-validation-required-message="Please enter some ingredients.">
+            <p class="help-block text-danger"></p>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="form-group floating-label-form-group controls">
+            <label>Instructions:</label>
+            <input type="text" class="form-control" placeholder="Instructions" id="instructions" required data-validation-required-message="Please enter some instructions.">
+            <p class="help-block text-danger"></p>
+          </div>
+        </div>
+        <br>
+        <input type="submit" value="submit"  class="btn btn-primary float-right">
+      </form>
+    </div>
+  </div>
+</div>
