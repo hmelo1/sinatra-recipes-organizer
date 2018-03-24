@@ -63,7 +63,7 @@ class UserController < ApplicationController
     if logged_in?
       @user = User.find(session[:user_id])
       @recipes = Recipe.where(user_id: @user.id)
-      @page = "user"
+      @page = "users"
       erb :'/users/show'
     else
       redirect '/login'
