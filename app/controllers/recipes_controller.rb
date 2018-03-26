@@ -56,7 +56,6 @@ class RecipeController < ApplicationController
 
   patch '/recipes/:slug/edit' do
     @recipe = Recipe.find_by_recipe_slug(@params[:slug])
-    binding.pry
     if @params[:title].length < 3 || @params[:ingredients].length < 3 || @params[:instructions].length < 3
       flash[:failure] = "Pleasemake sure entries aren't less than 3 characters"
       redirect to "/recipes/#{params[:slug]}/edit"
