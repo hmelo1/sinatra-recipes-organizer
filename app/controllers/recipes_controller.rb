@@ -1,7 +1,7 @@
 class RecipeController < ApplicationController
   get '/recipes' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      @user = current_user
     end
     @recipes = Recipe.all
     @page = "recipes"
@@ -10,7 +10,7 @@ class RecipeController < ApplicationController
 
   get '/recipes/new' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      @user = current_user
       @page = "new"
       erb :'/recipes/new'
     else
@@ -36,6 +36,9 @@ class RecipeController < ApplicationController
     if @params[:title].empty? || @params[:ingredients].empty? || @params[:instructions].empty?
       flash[:failure] = "Please do not leave any entries empty"
       redirect to '/recipes/new'
+    elsif Recipe.find_by_recipe_slug(@params[:title].parameterize)
+      flash[:failure] = "Can't have the same name as a current recipe"
+      redirect to '/recipes/new'
     else
       @recipe = Recipe.create(title: @params[:title], ingredients: @params[:ingredients], instructions: @params[:instructions], user_id: session[:user_id])
       redirect to "recipes/#{@recipe.recipe_slug}"
@@ -43,9 +46,10 @@ class RecipeController < ApplicationController
   end
 
   get '/recipes/:slug/edit' do
-    if logged_in?
-      @recipe = Recipe.find_by_recipe_slug(params[:slug])
-      @user = User.find_by(id: @recipe.user_id)
+    @recipe = Recipe.find_by_recipe_slug(params[:slug])
+    @user = User.find_by(id: @recipe.user_id)
+
+    if logged_in? && session["user_id"] == @user.id
 
       @page = "edit"
       erb :'/recipes/edit'
@@ -57,7 +61,7 @@ class RecipeController < ApplicationController
   patch '/recipes/:slug/edit' do
     @recipe = Recipe.find_by_recipe_slug(@params[:slug])
     if @params[:title].length < 3 || @params[:ingredients].length < 3 || @params[:instructions].length < 3
-      flash[:failure] = "Pleasemake sure entries aren't less than 3 characters"
+      flash[:failure] = "Please make sure entries aren't less than 3 characters"
       redirect to "/recipes/#{params[:slug]}/edit"
     else
       @recipe.update(title: @params[:title], ingredients: @params[:ingredients], instructions: @params[:instructions])
@@ -67,7 +71,7 @@ class RecipeController < ApplicationController
   end
 
   delete '/recipes/:slug/delete' do
-    @user = User.find(session[:user_id])
+    @user = current_user
     @recipe = Recipe.find_by_recipe_slug(params[:slug])
     if ((logged_in?) && (@recipe.user_id.to_i == session[:user_id]))
       @recipe.destroy

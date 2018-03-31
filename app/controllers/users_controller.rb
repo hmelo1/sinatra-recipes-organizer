@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   get '/signup' do
+    instance = "test"
     if logged_in?
       redirect '/recipes'
     else
@@ -61,7 +62,7 @@ class UserController < ApplicationController
 
   get '/users/:slug' do
     if logged_in?
-      @user = User.find(session[:user_id])
+      @user = current_user
       @recipes = Recipe.where(user_id: @user.id)
       @page = "users"
       erb :'/users/show'
